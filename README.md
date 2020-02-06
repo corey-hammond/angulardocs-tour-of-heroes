@@ -44,3 +44,72 @@ To display a component, you must add it to the template of the parent component 
 ```
 <app-heroes></app-heroes>
 ```
+
+### Two-way Data Binding Syntax
+
+```
+<input [(ngModel)]="hero.name" placeholder="name" />
+```
+
+[(ngModel)] is Angular's two-way data binding syntax. Here it binds the hero.name property to the HTML input textbox so that data can flow in both directions: from the hero.name property to the textbox, and from the textbox back to the hero.name.
+
+To use this, in app.module.ts import FormsModule from @angular/forms, and add FormsModule to the imports array.
+
+### *ngFor
+
+```
+<li *ngFor="let hero of heroes"> {{hero.name}} </li>
+```
+
+Angular's repeater directive that repeats the host element for each element in a list.
+
+1. <li> is the host element.
+2. heroes holds the mock heroes list form the HeroesComponent.
+3. hero holds the current hero object for each iteration through the list.
+
+### Defining Private Styles
+
+You define private styles either inline in the @Component.styles array or as a stylesheet file(s) identified in the @Component.styleUrls array.
+
+```
+@Component({
+  selector: 'app-heroes',
+  templateUrl: './heroes.component.html',
+  styleUrls: ['./heroes.component.css'] // This stylesheet affects this component only
+})
+```
+
+### Click Event Binding
+
+```
+<li *ngFor="let hero of heroes" (click)="onSelect(hero)">
+```
+
+The parenthesis around CLICK tell Angular to listen for the <li> element's click event. When the user clicks in the <li>, Angular executes the onSelect(hero) expression. Define your click method in the component's class. 
+
+### Use *ngIf to Hide Empty Details
+
+``` 
+<div *ngIf="selectedHero"> // Only show this div if there is a selectedHero 
+
+  <h2>{{selectedHero.name | uppercase}} Details</h2>
+  <div><span>id: </span>{{selectedHero.id}}</div>
+  <div>
+    <label>name:
+      <input [(ngModel)]="selectedHero.name" placeholder="name"/>
+    </label>
+  </div>
+
+</div>
+```
+
+### Class Binding
+
+The Angular class binding makes it easy to add and remove a CSS class conditionally. Just add [class.some-css-class]="some-condition" to the element.
+
+```
+[class.selected]="hero === selectedHero" // Added to the <li> element
+```
+
+
+
