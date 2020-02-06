@@ -1,27 +1,46 @@
-# AngulardocsTourOfHeroes
+# Angular Doc Tutorial - Tour of Heroes
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
+### Create a New Workspace and Initial Application
 
-## Development server
+```
+ng new my-app-name
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Serve the Application
 
-## Code scaffolding
+```
+ng serve --open
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Make Changes to the Application
 
-## Build
+Use interpolation syntax {{ }} to present the component's property values inside the html template
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```
+<h1> {{ title }} </h1>
+```
 
-## Running unit tests
+### Styles
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Application-wide styles go in the src/styles.css file
 
-## Running end-to-end tests
+### Generate a New Component
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```
+ng generate component component-name (heroes)
+```
+or ( ng g c heroes)
 
-## Further help
+* The CLI generates the metadata properties in the component.ts file:
+    1. selector - the component's CSS element selector
+        * matches the name of the HTML element that identifies this component within a parent component's template
+    2. templateURL - the location of the component's template file
+    3. styleUrls - the location of the component's private CSS styles
+* The ngOnInit() is a lifecycle hook. Angular calls ngOnInit() shortly after creating a component. It's a good place to put initialization logic.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Show the New Component View
+
+To display a component, you must add it to the template of the parent component using its element selector:
+```
+<app-heroes></app-heroes>
+```
