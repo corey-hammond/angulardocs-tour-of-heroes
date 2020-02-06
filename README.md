@@ -111,5 +111,21 @@ The Angular class binding makes it easy to add and remove a CSS class conditiona
 [class.selected]="hero === selectedHero" // Added to the <li> element
 ```
 
+### Master/Detail Components
+
+To make a child component's property available for binding by the external (parent) component, you must use the @Input decorator:
+
+```
+@Input hero: Hero; // In the child component
+```
+
+Bind the parent component's "selectedHero" property to the child component's "hero" property using property binding: 
+
+```
+<app-hero-detail [hero]="selectedHero"></app-hero-detail> // In parent component template
+```
+
+The child component will receive a hero object through its hero property and display it. This is a one-way data binding from the selectedHero property of the HeroesComponent to the hero property of the target element, which maps to the hero property of the HeroDetailComponent.
+
 
 
