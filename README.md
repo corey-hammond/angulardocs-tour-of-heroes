@@ -210,9 +210,115 @@ Since we will be binding the messageService property to the Message Component, w
 constructor(public messageService: MessageService) { } // In the MessagesComponent class
 ```
 
+## Routing 
 
+### Add the AppRoutingModule
 
+In Angular, the best practice is to load and configure the router in a separate, top-level module that is dedicated to routing and imported by the root AppModule. By convention, the module class name is AppRoutingModule and it belongs in the app-routing.module.ts in the src/app folder. 
 
+```
+ng generate module app-routing --flat --module=app
+```
 
+--flat puts the file in src/app instead of its own folder
+--module=app tells the CLI to register it in the imports array of the AppModule
 
+Configure your routes in app-routing.module.ts:
 
+```
+const routes: Routes = [
+    { path: 'heroes', component: HeroesComponent }
+]
+```
+
+Routes tell the Router which view to display when a user clicks a link or pastes a URL. A typical Angular Route has two properties:
+* path: a string that matches the URL in the browser address bar.
+* component: the component that the router should create when navigating to this route.
+
+This tells the router to match that URL to path: 'heroes' and display the HeroesComponent when the URL is localhost:4200/heroes.
+
+### Add RouterOutlet
+
+Replace the <app-heroes> element with <router-outlet>. This tells the router where to display routed views.
+
+### Add a Navigation Link (routerLink)
+
+```
+<a routerLink="/heroes">Heroes</a>
+```
+
+### Add a Default Route
+
+```
+{ path: '', redirectTo: '/dashboard', pathMatch: 'full'}
+```
+
+### Add a Parameterized Route
+
+```
+{ path: 'detail/:id', component: HeroDetailComponent }
+```
+
+The colon (:) in the path indicates the :id is a placeholder for a specific hero id.
+
+routerLink via the parameterized route:
+
+```
+<a *ngFor="let hero of heroes" class="col-1-4"
+    routerLink="/detail/{{hero.id}}">
+  <div class="module hero">
+    <h4>{{hero.name}}</h4>
+  </div>
+</a>
+```
+
+The Angular interpolation binding within the *ngFor repeater inserts the current iteration's hero.id into each routerLink.
+
+### Routable Component
+
+The HeroDetailComponent needs a way to obtain the hero-to-display. Import:
+
+```
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
+import { HeroService }  from '../hero.service';
+```
+
+Inject the ActivatedRoute, HeroService, and Location services into the constructor:
+
+```
+constructor(
+  private route: ActivatedRoute,
+  private heroService: HeroService,
+  private location: Location
+) {}
+```
+
+* The ActivatedRoute holds information about the route to this instance of the HeroDetailComponent. This component is interested in the route's parameters extracted from the URL. The 'id' parameter is the id of the hero to display.
+* The HeroService gets hero data from the remote server and this component will use it to get the hero-to-display.
+* The location is an Angular service for interacting with the browser. You can use it to navigate back to the view that navigated here.
+
+Extract the id route parameter:
+
+```
+getHero(): void {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.heroService.getHero(id)
+        .subscribe(hero => this.hero = hero);
+}
+```
+
+The route.snapshot is a static image of the route information shortly after the component was created. 
+
+The paramMap is a dictionary of route parameter values extracted form the URL. The 'id' key returns the id of the hero to fetch. 
+
+Route parameters are always strings. The JavaScript (+) operator coverts the string to a number, which is what a hero id should be. 
+
+### Location service
+
+```
+goBack(): void {
+    this.location.back();
+}
+```
