@@ -322,3 +322,23 @@ goBack(): void {
     this.location.back();
 }
 ```
+
+
+### Enable HTTP Services
+
+HttpClient is Angular's mechanism for communicating with a remote server over HTTP. Make HttpClient available everywhere in the app in two steps. In AppModule:
+
+```
+import { HttpClientModule } form '@angular/common/http';
+```
+
+Then add HttpClient to the import's array:
+
+```
+@NgModule({
+  imports: [
+    HttpClientModule,
+  ],
+})
+```
+
