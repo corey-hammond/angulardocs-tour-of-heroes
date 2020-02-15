@@ -29,18 +29,20 @@ Application-wide styles go in the src/styles.css file
 ```
 ng generate component component-name (heroes)
 ```
+
 or ( ng g c heroes)
 
-* The CLI generates the metadata properties in the component.ts file:
-    1. selector - the component's CSS element selector
-        * matches the name of the HTML element that identifies this component within a parent component's template
-    2. templateURL - the location of the component's template file
-    3. styleUrls - the location of the component's private CSS styles
-* The ngOnInit() is a lifecycle hook. Angular calls ngOnInit() shortly after creating a component. It's a good place to put initialization logic.
+- The CLI generates the metadata properties in the component.ts file:
+  1. selector - the component's CSS element selector
+     - matches the name of the HTML element that identifies this component within a parent component's template
+  2. templateURL - the location of the component's template file
+  3. styleUrls - the location of the component's private CSS styles
+- The ngOnInit() is a lifecycle hook. Angular calls ngOnInit() shortly after creating a component. It's a good place to put initialization logic.
 
 ### Show the New Component View
 
 To display a component, you must add it to the template of the parent component using its element selector:
+
 ```
 <app-heroes></app-heroes>
 ```
@@ -55,7 +57,7 @@ To display a component, you must add it to the template of the parent component 
 
 To use this, in app.module.ts import FormsModule from @angular/forms, and add FormsModule to the imports array.
 
-### *ngFor
+### \*ngFor
 
 ```
 <li *ngFor="let hero of heroes"> {{hero.name}} </li>
@@ -85,12 +87,12 @@ You define private styles either inline in the @Component.styles array or as a s
 <li *ngFor="let hero of heroes" (click)="onSelect(hero)">
 ```
 
-The parenthesis around CLICK tell Angular to listen for the <li> element's click event. When the user clicks in the <li>, Angular executes the onSelect(hero) expression. Define your click method in the component's class. 
+The parenthesis around CLICK tell Angular to listen for the <li> element's click event. When the user clicks in the <li>, Angular executes the onSelect(hero) expression. Define your click method in the component's class.
 
-### Use *ngIf to Hide Empty Details
+### Use \*ngIf to Hide Empty Details
 
-``` 
-<div *ngIf="selectedHero"> // Only show this div if there is a selectedHero 
+```
+<div *ngIf="selectedHero"> // Only show this div if there is a selectedHero
 
   <h2>{{selectedHero.name | uppercase}} Details</h2>
   <div><span>id: </span>{{selectedHero.id}}</div>
@@ -119,7 +121,7 @@ To make a child component's property available for binding by the external (pare
 @Input hero: Hero; // In the child component
 ```
 
-Bind the parent component's "selectedHero" property to the child component's "hero" property using property binding: 
+Bind the parent component's "selectedHero" property to the child component's "hero" property using property binding:
 
 ```
 <app-hero-detail [hero]="selectedHero"></app-hero-detail> // In parent component template
@@ -139,8 +141,7 @@ ng generate service service-name
 
 ### @Injectable Services
 
-The @Injectable decorator marks the class as one that participates in the "dependency injection system." It accepts a metadata object for the service the same way the @Component decorator does. 
-
+The @Injectable decorator marks the class as one that participates in the "dependency injection system." It accepts a metadata object for the service the same way the @Component decorator does.
 
 In the service we will create a method to retrieve data. This can be from a web service, local storage, or a mock data source:
 
@@ -161,7 +162,7 @@ import { HeroService } from '../hero.service';
 constructor(private heroService: HeroService) { }
 ```
 
-The parameter simultaneously defines a private heroService property and identifies it as a HeroService injection site. When Angular creates this component, the Dependency Injection system sets the heroService parameter to the singleton instance of the service. 
+The parameter simultaneously defines a private heroService property and identifies it as a HeroService injection site. When Angular creates this component, the Dependency Injection system sets the heroService parameter to the singleton instance of the service.
 
 Now we can create a function in the component to retrieve the heroes from the service:
 
@@ -196,9 +197,9 @@ The new version waits for the Observable to emit the array of heroes—which cou
 
 ### Service-in-Service
 
-In this project, we are creating a message component that displays app messages at the bottom of the screen. We create an injectable, app-wide message service for sending the messages to be displayed, and we will be injecting this service into the hero service to demonstrate a common service-in-service scenario. 
+In this project, we are creating a message component that displays app messages at the bottom of the screen. We create an injectable, app-wide message service for sending the messages to be displayed, and we will be injecting this service into the hero service to demonstrate a common service-in-service scenario.
 
-In the hero service constructor: 
+In the hero service constructor:
 
 ```
 constructor(private messageService: MessageService) { }
@@ -210,11 +211,11 @@ Since we will be binding the messageService property to the Message Component, w
 constructor(public messageService: MessageService) { } // In the MessagesComponent class
 ```
 
-## Routing 
+## Routing
 
 ### Add the AppRoutingModule
 
-In Angular, the best practice is to load and configure the router in a separate, top-level module that is dedicated to routing and imported by the root AppModule. By convention, the module class name is AppRoutingModule and it belongs in the app-routing.module.ts in the src/app folder. 
+In Angular, the best practice is to load and configure the router in a separate, top-level module that is dedicated to routing and imported by the root AppModule. By convention, the module class name is AppRoutingModule and it belongs in the app-routing.module.ts in the src/app folder.
 
 ```
 ng generate module app-routing --flat --module=app
@@ -232,8 +233,9 @@ const routes: Routes = [
 ```
 
 Routes tell the Router which view to display when a user clicks a link or pastes a URL. A typical Angular Route has two properties:
-* path: a string that matches the URL in the browser address bar.
-* component: the component that the router should create when navigating to this route.
+
+- path: a string that matches the URL in the browser address bar.
+- component: the component that the router should create when navigating to this route.
 
 This tells the router to match that URL to path: 'heroes' and display the HeroesComponent when the URL is localhost:4200/heroes.
 
@@ -272,7 +274,7 @@ routerLink via the parameterized route:
 </a>
 ```
 
-The Angular interpolation binding within the *ngFor repeater inserts the current iteration's hero.id into each routerLink.
+The Angular interpolation binding within the \*ngFor repeater inserts the current iteration's hero.id into each routerLink.
 
 ### Routable Component
 
@@ -295,9 +297,9 @@ constructor(
 ) {}
 ```
 
-* The ActivatedRoute holds information about the route to this instance of the HeroDetailComponent. This component is interested in the route's parameters extracted from the URL. The 'id' parameter is the id of the hero to display.
-* The HeroService gets hero data from the remote server and this component will use it to get the hero-to-display.
-* The location is an Angular service for interacting with the browser. You can use it to navigate back to the view that navigated here.
+- The ActivatedRoute holds information about the route to this instance of the HeroDetailComponent. This component is interested in the route's parameters extracted from the URL. The 'id' parameter is the id of the hero to display.
+- The HeroService gets hero data from the remote server and this component will use it to get the hero-to-display.
+- The location is an Angular service for interacting with the browser. You can use it to navigate back to the view that navigated here.
 
 Extract the id route parameter:
 
@@ -309,11 +311,11 @@ getHero(): void {
 }
 ```
 
-The route.snapshot is a static image of the route information shortly after the component was created. 
+The route.snapshot is a static image of the route information shortly after the component was created.
 
-The paramMap is a dictionary of route parameter values extracted form the URL. The 'id' key returns the id of the hero to fetch. 
+The paramMap is a dictionary of route parameter values extracted form the URL. The 'id' key returns the id of the hero to fetch.
 
-Route parameters are always strings. The JavaScript (+) operator coverts the string to a number, which is what a hero id should be. 
+Route parameters are always strings. The JavaScript (+) operator coverts the string to a number, which is what a hero id should be.
 
 ### Location service
 
@@ -322,7 +324,6 @@ goBack(): void {
     this.location.back();
 }
 ```
-
 
 ### Enable HTTP Services
 
@@ -342,3 +343,4 @@ Then add HttpClient to the import's array:
 })
 ```
 
+### Review in-memory-data.service.ts
